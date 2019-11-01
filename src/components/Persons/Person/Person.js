@@ -7,7 +7,7 @@ const person = (props) => {
     age,
     children,
     handleClick,
-    handleChange 
+    handleChange, 
   } = props;
 
   return (
