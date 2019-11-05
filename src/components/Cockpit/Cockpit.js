@@ -8,7 +8,7 @@ const Cockpit = (props) => {
     // this is executed only when first render occurs
     console.log('[Cockpit.js] useEffect');
     return () => {
-      // this is executed only when component is removed from the DOM
+      // cleanup code: this is executed only when component is removed from the DOM
       console.log('[Cockpit.js] cleanup code in useEffect');
     }
   },[]);
@@ -31,16 +31,19 @@ const Cockpit = (props) => {
   }
 
   return (
-    <div>
+    <>
       <h1 className={classes.bold}>Hey I'm starting this over</h1>
       <p className={classes.red}>this is really working</p>
       <button 
         style={style}
         onClick={props.handleClick}>
           Toggle persons
-      </button>
-    </div>
+      </button>         
+      <p>Persons count: <span>{props.personsCount}</span></p>
+      
+      <button onClick={props.fetchPersons}>Fetch persons</button>
+    </>
   );
 }
 
-export default Cockpit;
+export default React.memo(Cockpit);

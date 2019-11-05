@@ -60,20 +60,35 @@ class App extends Component {
   }
   
   // componentDidMount() {
-  //   console.log('[App.js] componentDidMount... fetching data', this.state);
-  //   fetch('https://jsonplaceholder.typicode.com/users')
-  //   .then( (users) => users.json())
-  //   .then( (users) => {
-  //     const persons = users.map(user => ({ id: user.id, name: user.name, age: 17, }));
-  //     this.setState(
-  //       {
-  //         persons: [...this.state.persons, ...persons]
-  //       }
-  //     );
-  //     console.log('[App.js] componentDidMount...data fetched', this.state);
-  //   })
+  //   console.log('[App.js] componentDidMount);
+ 
   // }
   
+  fetchPersons = () => {
+    console.log('fetching persons...', this.state.persons);
+
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then( (users) => users.json())
+    .then( (users) => {
+      const persons = users.map( user => {
+        return ( 
+        {
+          id: user.id,
+          name: user.name,
+          age: 17, 
+        });
+      });
+
+      console.log('setting App.js state...');
+      this.setState(
+        {
+          persons: [...this.state.persons, ...persons]
+        }
+      );
+
+      console.log('[App.js] data fetched, state set', this.state.persons);
+    })
+  }
   
 
   render () {
@@ -92,7 +107,12 @@ class App extends Component {
       <div className="App">
         <p>{this.props.appTitle}</p>
         <button onClick={this.toggleCockpit}>Hide/Show cockpit</button>
-        {this.state.isCockPitShown && <Cockpit handleClick={this.handleTogglePerson}/>} 
+        {this.state.isCockPitShown && 
+          <Cockpit
+            handleClick={this.handleTogglePerson}
+            personsCount={this.state.persons.length}
+            fetchPersons={this.fetchPersons}
+          />} 
         {personsToShow}
       </div>
     );
