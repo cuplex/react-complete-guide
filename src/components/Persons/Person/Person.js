@@ -10,10 +10,15 @@ const person = (props) => {
     handleChange, 
   } = props;
 
+  console.log('[Person.js] rendering...')
   return (
     <div className="Person">
       <p onClick={handleClick}>I'm a {name} and I'm {age} years old</p>
-      <input type="text" onChange={handleChange} value={name}></input>
+      <input 
+        type="text"
+        onChange={handleChange}
+        value={name}
+      />
       <p>{children}</p>
     </div>
   );

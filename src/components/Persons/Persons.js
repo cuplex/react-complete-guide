@@ -1,18 +1,49 @@
-import React from 'react'
+import React, { Component }from 'react'
 import Person from './Person/Person';
 
-const persons = (props) => {
+class Persons extends Component {
 
-  const { persons, handleClick, handleChange } = props;
-    return persons.map((person, index) => (
-      <Person 
-        name={person.name}
-        age={person.age}
-        handleClick={() => handleClick(index)}
-        key={person.id}
-        handleChange={(event) => handleChange(event, person.id)}
-      />
-    ))
+  // static getDerivedStateFromProps(props, state) {
+  //   console.log('[Persons.js] getDerivedStateFromProps...');
+  //   return state
+  // }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[Persons.js] getDerivedStateFromProps...');
+    return true;
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log('[Persons.js] getSnapshotBeforeUpdate...');
+    if(prevProps.persons.length !== this.props.persons.length) {
+      return {persons: prevProps.persons};
+    }
+    if(prevProps.persons !== this.props.persons) {
+      return {persons: prevProps.persons};
+    }
+
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('[Persons.js] componentDidUpdate...', snapshot, this.props.persons);
+  }
+
+  render() {
+    console.log('[Persons.js] rendering...');
+
+    const { persons, handleClick, handleChange } = this.props;
+    
+      return persons.map((person, index) => (
+        <Person 
+          name={person.name}
+          age={person.age}
+          handleClick={() => handleClick(index)}
+          key={person.id}
+          handleChange={(event) => handleChange(event, person.id)}
+        />
+      ))
+  }
 }
 
-export default persons;
+export default Persons;
