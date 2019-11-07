@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import './App.css';
+import classes from './App.module.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import withStyles from '../components/hoc/withStyles'
 
 class App extends Component {
 
@@ -24,6 +25,7 @@ class App extends Component {
     ],
     isPersonsShown: false,
     isCockPitShown: true,
+    count: 0,
   }
 
   handleTogglePerson = () => {
@@ -90,7 +92,16 @@ class App extends Component {
     })
   }
   
-
+  // handling setState correctly when it depends on previous state
+  // and using callback to make sure we get the updated value
+  // https://reactjs.org/docs/react-component.html#setstate
+  countClicks = () => {
+    this.setState((state) => {
+      return { count: state.count + 1 };
+    }, () => {
+      console.log('[App,js]: countCLikcs: state=> ', this.state.count);
+    });
+  }
   render () {
     console.log('[App.js] rendering...');
     let personsToShow = null;
@@ -104,9 +115,11 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
+      <>
         <p>{this.props.appTitle}</p>
         <button onClick={this.toggleCockpit}>Hide/Show cockpit</button>
+        <button onClick={this.countClicks}>Count</button>
+        <p>{this.state.count}</p>
         {this.state.isCockPitShown && 
           <Cockpit
             handleClick={this.handleTogglePerson}
@@ -114,10 +127,10 @@ class App extends Component {
             fetchPersons={this.fetchPersons}
           />} 
         {personsToShow}
-      </div>
+      </>
     );
     // return React.createElement('div', { className: 'App'}, React.createElement('h1', null, 'Hey I\'m starting this over'));
   }
 }
 
-export default App;
+export default withStyles(App, classes.App);

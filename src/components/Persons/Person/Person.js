@@ -1,8 +1,8 @@
 import React from 'react';
-import './Person.css';
-// import Aux from '../../hoc/Aux'
+import classes from './Person.module.css';
+import withStyles from '../../hoc/withStyles'
 
-const person = (props) => {
+const Person = (props) => {
   const {
     name,
     age,
@@ -23,4 +23,4 @@ const person = (props) => {
   );
 };
 
-export default person;
+export default withStyles(Person, classes.Person);
