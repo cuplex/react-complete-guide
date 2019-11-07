@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import classes from './Cockpit.module.css';
 
 const Cockpit = (props) => {
-  
+  const btnToggleRef = useRef(null);
 
   useEffect(() => {
     // this is executed only when first render occurs
     console.log('[Cockpit.js] useEffect');
+    btnToggleRef.current.click();
     return () => {
       // cleanup code: this is executed only when component is removed from the DOM
       console.log('[Cockpit.js] cleanup code in useEffect');
@@ -36,7 +37,9 @@ const Cockpit = (props) => {
       <p className={classes.red}>this is really working</p>
       <button 
         style={style}
-        onClick={props.handleClick}>
+        onClick={props.handleClick}
+        ref={btnToggleRef}
+      >
           Toggle persons
       </button>         
       <p>Persons count: <span>{props.personsCount}</span></p>

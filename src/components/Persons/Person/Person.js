@@ -3,25 +3,42 @@ import classes from './Person.module.css';
 import withStyles from '../../hoc/withStyles'
 import PropTypes from 'prop-types';
 
-const Person = (props) => {
-  const {
-    name,
-    age,
-    handleClick,
-    handleChange, 
-  } = props;
+class Person extends React.Component {
+  // const {
+  //   name,
+  //   age,
+  //   handleClick,
+  //   handleChange, 
+  // } props;
 
-  console.log('[Person.js] rendering...')
-  return (
-    <React.Fragment>
-      <p onClick={handleClick}>I'm a {name} and I'm {age} years old</p>
-      <input 
-        type="text"
-        onChange={handleChange}
-        value={name}
-      />
-    </React.Fragment>
-  );
+  constructor(props) {
+    super(props);
+    this.inputElRef = React.createRef();
+    console.log('[Person.js] constructor: ref ',this.inputElRef);
+  }
+
+  componentDidMount() {
+    console.log('[Person.js] componentDidMount ref:', this.inputElRef);
+
+    this.inputElRef.current.focus();
+  }
+
+  render() {
+    console.log('[Person.js] rendering...')
+
+    return (
+      <React.Fragment>
+        <p onClick={this.props.handleClick}>I'm a {this.props.name} and I'm {this.props.age} years old</p>
+        <input 
+          type="text"
+          onChange={this.props.handleChange}
+          // ref={(inputEl) => {this.inputEl = inputEl}}
+          ref={this.inputElRef}
+          value={this.props.name}
+        />
+      </React.Fragment>
+    );
+  };
 };
 
 Person.propTypes = {
